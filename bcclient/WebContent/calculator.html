@@ -42,7 +42,9 @@
 		var ageElement = document.getElementById("age");
 		var age = ageElement.options[ageElement.selectedIndex].value;
 
-		var url = "http://localhost:8080/bcrest/getbccalc?eth=" + eth
+		var localhost = "http://localhost:5389"
+		var infosci = "http://soblinux01.otago.ac.nz:8090"
+		var url = localhost + "/bcrest/getbccalc?eth=" + eth
 				+ "&age1=" + age1 + "&age2=" + age2 + "&par=" + par + "&con="
 				+ con + "&hbcan=" + hbcan + "&hbben=" + hbben + "&htdis="
 				+ htdis + "&age=" + age;
@@ -69,7 +71,7 @@
 					riskCatField.value = cat
 					riskDescField.value = desc
 				} else
-					alert("Error ->" + xmlhttp.responseText);
+					alert("Error ->" + xmlhttp.status + " " + xmlhttp.responseText);
 			}
 		};
 	}
