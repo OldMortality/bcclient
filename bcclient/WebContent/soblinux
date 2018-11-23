@@ -3,7 +3,6 @@
 <head>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="styles.css">
 <script language="javascript">
 	var xmlhttp;
 	function init() {
@@ -11,75 +10,14 @@
 		xmlhttp = new XMLHttpRequest();
 	}
 
-	function middleValue(age) {
-		return(0.20)
-	}
-	
-	function myfunction(risk,age) {
-	    alert("age" + age+ "risk " + risk );       
-	    
-	    var c = document.getElementById("myCanvas");
-	    var ctx = c.getContext("2d");
-	  
-	    // clear it
-	    ctx.fillStyle="#FFFFFF";
-	    ctx.fillRect(0,0,800,150);
-	    
-	    ctx.fillStyle="#0000FF";
-	    ctx.fillRect(0,25,200,100); 
-	  	//green
-	    ctx.fillStyle="#00FF00";
-	    ctx.fillRect(200,25,400,100); 
-	    // orange
-	    ctx.fillStyle="FF8C00";
-	    ctx.fillRect(400,25,500,100); 
-	    // red
-	    ctx.fillStyle="#FF0000";
-	    ctx.fillRect(600,25,800,100); 
-	   
-	    middleVal = middleValue(age).toFixed(2);
-	    
-	    
-	    lowerVal = (middleValue(age)/2).toFixed(2);
-	   
-	    
-	    upperVal = (middleValue(age)*3/2).toFixed(2);
-	    
-	    
-	    topVal = (2 * middleValue(age)).toFixed(2);
-	    
-	    
-	    r = parseFloat(risk)
-	    
-	    x = 800 * r/topVal
-	   
-	    ctx.strokeStyle="#000000";
-	    ctx.lineWidth=3
-	    ctx.strokeRect(x,25,3,150);
-	    ctx.font="12px Georgia";
-	    ctx.fillStyle = "#000000"
-	    ctx.fillText(topVal+"%",760,15);
-	    ctx.fillText(middleVal+"%",385,18);
-	    ctx.fillText("0.0%",10,18);
-	    ctx.fillText(lowerVal+"%",185,18);
-	    ctx.fillText(upperVal+"%",600,18);
-	    
-	    
-	    
-
-	    
-	}
-	
 	function getdetails() {
-		
 		var riskField = document.getElementById("riskValue");
-		riskField.style.display = "none"
 		var riskCatField = document.getElementById("riskCategory");
 		var riskDescField = document.getElementById("riskDescription");
 		
 		var ethElement = document.getElementById("eth");
 		var eth = ethElement.options[ethElement.selectedIndex].value;
-
+//
 		var age1Element = document.getElementById("age1");
 		var age1 = age1Element.options[age1Element.selectedIndex].value;
 
@@ -104,13 +42,13 @@
 		var ageElement = document.getElementById("age");
 		var age = ageElement.options[ageElement.selectedIndex].value;
 
-		var localhost = "http://localhost:5389"; //5389"
+		var localhost = "http://localhost:8080"
 		var infosci = "http://soblinux01.otago.ac.nz:8090"
-		var url = localhost + "/bcrest/getbccalc?eth=" + eth
+		var url = infosci + "/bcrest/getbccalc?eth=" + eth
 				+ "&age1=" + age1 + "&age2=" + age2 + "&par=" + par + "&con="
 				+ con + "&hbcan=" + hbcan + "&hbben=" + hbben + "&htdis="
 				+ htdis + "&age=" + age;
-		//alert(url)
+		alert(url)
 		xmlhttp.open('GET', url, true);
 
 		xmlhttp.send(null);
@@ -126,54 +64,21 @@
 					var data = xmlhttp.responseXML
 
 					var risk = data.getElementsByTagName("RISK")[0].childNodes[0].nodeValue;
-					
 					var cat = data.getElementsByTagName("RISK_CATEGORY")[0].childNodes[0].nodeValue;
 					var desc = data.getElementsByTagName("DESCRIPTION")[0].childNodes[0].nodeValue;
 
 					riskField.value = risk
-					riskField.setAttribute("rv",risk)
-					riskField.className = ''
-					riskField.style.display = "block"
 					riskCatField.value = cat
 					riskDescField.value = desc
-					
-					// make visible
-					risk.className = ''; 
-					
-					//var para = document.createElement("p");
-					//var node = document.createTextNode(risk);
-					//para.setAttribute("id", "fred");
-					//para.appendChild(node);
-
-					//var element = document.getElementById("results");
-					//element.appendChild(para);
-					
-					
-					//drawCanvas()
-				
-					myfunction(risk,age)
-					 
-					
-					
 				} else
-					alert("Error ->" + xmlhttp.status + " " + xmlhttp.responseText);
+					alert("Error ->" + xmlhttp.responseText);
 			}
 		};
 	}
-	
-	
-	
-	
 </script>
-
- 
-
-
 </head>
 <body onload="init()">
-    <div id="div1">
-    <h1>Breast cancer risk calculator</h1>
-	</div>
+
 	<table>
 		<tr>
 			<td>Ethnicity</td>
@@ -187,20 +92,19 @@
 		<tr>
 			<td>Age at Menarche</td>
 			<td><select id="age1">
-					<option value="3">less than 12</option>
-					<option value="2">12-14</option>
 					<option value="1">15+</option>
-					
+					<option value="2">12-14</option>
+					<option value="3">less than 12</option>
+
 			</select></td>
 		</tr>
 		<tr>
 			<td>Age at Menopause</td>
 			<td><select id="age2">
-					<option value="4" selected="selected">pre-menopause</option>
-					<option value="3">less than 45</option>
-					<option value="2">45-49</option>
 					<option value="1">50+</option>
-					
+					<option value="2">45-59</option>
+					<option value="3">less than 45</option>
+					<option value="4" selected="selected">pre-menopause</option>
 
 			</select></td>
 		</tr>
@@ -247,7 +151,7 @@
 		</tr>
 		<tr>
 			<td>Your current age</td>
-			<td><select id="age" >
+			<td><select id="age">
 					<option value="20">20</option>
 					<option value="21">21</option>
 					<option value="22">22</option>
@@ -287,35 +191,30 @@
 
 
 			</select></td>
-			<canvas id="myCanvas" width="800" height="150" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
 		</tr>
-		 
 
 
 
 	</table>
-	
 	<table>
 		<tr>
 
 			<td><input type="button" id="button" value="Calculate risk"
-				onclick="getdetails()" ></input>
+				onclick="getdetails()" />
 		</tr>
 	</table>
-    <div id="results">
+
 	<table>
 		<tr>
 			<td>risk :</td>
-			<td><textarea id="riskValue"  class="hidden">33</textarea></td>
-			
+			<td><input type="text" id="riskValue" size="10 readonly" /></td>
 
 		</tr>
 
 
 		<tr>
 			<td>risk category :</td>
-			<td><input type="text" id="riskCategory" size="10" readonly /></td>
+			<td><input type="text" id="riskCategory" size="10 readonly" /></td>
 
 		</tr>
 		<tr>
@@ -325,6 +224,5 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 		</tr>
 
 	</table>
-	</div>
 </body>
 </html>
