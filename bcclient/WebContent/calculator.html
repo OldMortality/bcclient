@@ -4,6 +4,9 @@
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="styles.css">
+  
+
+ 
 <script language="javascript">
 	var xmlhttp;
 	function init() {
@@ -16,7 +19,7 @@
 	}
 	
 	function myfunction(risk,age) {
-	    alert("age" + age+ "risk " + risk );       
+	    //alert("age" + age+ "risk " + risk );       
 	    
 	    var c = document.getElementById("myCanvas");
 	    var ctx = c.getContext("2d");
@@ -174,10 +177,15 @@
     <div id="div1">
     <h1>Breast cancer risk calculator</h1>
 	</div>
+	 
 	<table>
 		<tr>
-			<td>Ethnicity</td>
-			<td><select id="eth">
+		 
+			<td title="hello"> Ethnicity</td>
+			
+			<td class="tooltip" data-tip="Maori or non-Maori
+Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women">
+			<select id="eth">
 					<option value="mao">Maori</option>
 					<option value="eur">Eur</option>
 					<option value="eur">Other</option>
@@ -185,8 +193,9 @@
 			</select></td>
 		</tr>
 		<tr>
-			<td>Age at Menarche</td>
-			<td><select id="age1">
+			<td>Age at Menarche  </td>
+			<td class="tooltip" data-tip="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer.">
+			<select id="age1" >
 					<option value="3">less than 12</option>
 					<option value="2">12-14</option>
 					<option value="1">15+</option>
@@ -195,7 +204,8 @@
 		</tr>
 		<tr>
 			<td>Age at Menopause</td>
-			<td><select id="age2">
+			<td class="tooltip" data-tip="Age (in years) when woman had her last period, Or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer.">
+			<select id="age2">
 					<option value="4" selected="selected">pre-menopause</option>
 					<option value="3">less than 45</option>
 					<option value="2">45-49</option>
@@ -206,7 +216,9 @@
 		</tr>
 		<tr>
 			<td>Parity</td>
-			<td><select id="par">
+			<td class="tooltip" data-tip="Here parity is defined as the number of pregnancies that have been carried to term.
+Reason – The more children a woman has, the lower her risk of breast cancer.">
+			<select id="par">
 					<option value="0">None</option>
 					<option value="1">1 child</option>
 					<option value="2">2 children</option>
@@ -217,7 +229,9 @@
 		</tr>
 		<tr>
 			<td>Ever use oral contraceptives</td>
-			<td><select id="con">
+			<td class="tooltip" data-tip="Ever used oral contraceptives. Yes or no.
+Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who haven’t.">
+			<select id="con">
 					<option value="0">Never</option>
 					<option value="1">Yes</option>
 
@@ -225,7 +239,9 @@
 		</tr>
 		<tr>
 			<td>Family history of breast cancer</td>
-			<td><select id="hbcan">
+			<td class="tooltip" data-tip="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
+Reason – Women with a family history of breast cancer have a higher risk of developing it themselves.">
+			<select id="hbcan">
 					<option value="0">No</option>
 					<option value="1">Second degree only</option>
 					<option value="2">First degree</option>
@@ -233,14 +249,16 @@
 		</tr>
 		<tr>
 			<td>History of benign breast disease</td>
-			<td><select id="hbben">
+			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease.">
+			<select id="hbben">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 			</select></td>
 		</tr>
 		<tr>
 			<td>History of Thyroid disease</td>
-			<td><select id="htdis">
+			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others.">
+			<select id="htdis">
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 			</select></td>
