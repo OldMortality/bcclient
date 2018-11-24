@@ -22,7 +22,7 @@
 	}
 
 	function middleValue(age) {
-		return(0.08)
+		return(0.05)
 	}
 	
 	function checkAge() {
@@ -102,14 +102,8 @@
 	    ctx.fillRect(600,25,800,100); 
 	   
 	    middleVal = middleValue(age).toFixed(2);
-	    
-	    
-	    lowerVal = (middleValue(age)/2).toFixed(2);
-	   
-	    
+	    lowerVal = (middleValue(age)/2).toFixed(2); 
 	    upperVal = (middleValue(age)*3/2).toFixed(2);
-	    
-	    
 	    topVal = (2 * middleValue(age)).toFixed(2);
 	    
 	    
@@ -122,11 +116,11 @@
 	    ctx.strokeRect(x,25,3,150);
 	    ctx.font="12px Georgia";
 	    ctx.fillStyle = "#000000"
-	    ctx.fillText(topVal+"%",760,15);
-	    ctx.fillText(middleVal+"%",385,18);
-	    ctx.fillText("0.0%",10,18);
-	    ctx.fillText(lowerVal+"%",185,18);
-	    ctx.fillText(upperVal+"%",600,18);
+	    ctx.fillText(topVal,760,15);
+	    ctx.fillText(middleVal,385,18);
+	    ctx.fillText("0.0",10,18);
+	    ctx.fillText(lowerVal,185,18);
+	    ctx.fillText(upperVal,600,18);
 	    
 	    
 	    
