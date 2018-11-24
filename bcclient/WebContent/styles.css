@@ -11,7 +11,18 @@ td.tooltip {
 			position: relative;
 		}	
 		
+.button {
+	background-color: #E06997; /* pink */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 
+ 
 
 td.tooltip::before {
     content: attr(data-tip) ;   
@@ -21,9 +32,9 @@ td.tooltip::before {
     z-index: 999;
     white-space:nowrap;
     bottom:9999px;
-    left: 50%;
-    background:#000;
-    color:#e0e0e0;
+    left: 100%;
+    background:#4D4F53;
+    color:#FFFFFF;
     padding:0px 7px;
     line-height: 24px;
     height: 84px;
@@ -37,3 +48,53 @@ td.tooltip:hover::before {
     opacity: 1;
     bottom:-35px;
     }
+
+   
+td.tooltip2 {
+			position: relative;
+		}	   
+td.tooltip2::before {
+    content: attr(data-tip) ;   
+     
+    font-size: 10px;
+    position:absolute;
+    z-index: 999;
+    white-space:nowrap;
+    bottom:9999px;
+    left: 150%;
+    background:#4D4F53;
+    color:#FFFFFF;
+    padding:0px 7px;
+    line-height: 24px;
+    height: 84px;
+    width: 600px;
+    opacity: 0;  
+    transition:opacity 0.4s ease-out; 
+    white-space: pre-line;
+    }
+     
+td.tooltip2:hover::before {
+    opacity: 1;
+    bottom:-35px;
+    }    
+    
+textarea#ageText {
+	width: 600px;
+	height: 20px;
+	border: none;
+	/*
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	*/
+}
+
+textarea#age2Text {
+	width: 600px;
+	height: 20px;
+	border: none;
+	
+}

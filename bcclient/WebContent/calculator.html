@@ -1,6 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+ <title>Breast Cancer</title>
+ <link rel="icon" type="image/png" href="http://localhost:5389/bcclient/favicon.png" sizes="16x16"/>
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="styles.css">
@@ -13,9 +15,68 @@
 		// put more code here in case you are concerned about browsers that do not provide XMLHttpRequest object directly
 		xmlhttp = new XMLHttpRequest();
 	}
+	
+	function hideResults() {
+		var div = document.getElementById('results');
+		div.style.visibility = 'hidden';
+	}
 
 	function middleValue(age) {
-		return(0.20)
+		return(0.08)
+	}
+	
+	function checkAge() {
+		
+		hideResults();
+		// current age
+		var a = document.getElementById("age")
+		var age = parseInt(a.options[a.selectedIndex].value,10);
+		 
+		// age at menopause
+		// value="2">45-49
+		// value="1">50+
+		var a2 = document.getElementById("age2");
+		var age2 = a2.options[a2.selectedIndex].value
+		 
+		
+		error = false;
+		if (age2 == "2" && age < 45) {
+			error = true 
+		}
+		if (age2 == "1" && age < 50) {
+			error = true;
+		}
+		if (error==true) {
+			 
+			var msg = "Age at menopause is inconsistent with current age."
+			document.getElementById("ageText").value = msg;
+			document.getElementById("age2Text").value = msg;
+			// make error message visible
+			
+			document.getElementById("ageText").style.visibility = 'visible';
+			document.getElementById("age2Text").style.visibility = 'visible';
+			var b = document.getElementById("button");
+			// hide button
+			b.style.visibility='hidden'
+
+						
+		} else {
+			var msg = ""
+				document.getElementById("ageText").value = msg;
+				document.getElementById("age2Text").value = msg;
+				// hide error message
+				document.getElementById("ageText").style.visibility = 'hidden';
+				document.getElementById("age2Text").style.visibility = 'hidden';
+				// show submit button
+				var b = document.getElementById("button");
+				// make sure user agrees to terms and conditions.
+				var checkBox = document.getElementById("toc");
+				if (checkBox.checked) {
+					b.style.visibility='visible'
+				} else {
+					b.style.visibility='hidden'
+				}
+		}
 	}
 	
 	function myfunction(risk,age) {
@@ -34,7 +95,7 @@
 	    ctx.fillStyle="#00FF00";
 	    ctx.fillRect(200,25,400,100); 
 	    // orange
-	    ctx.fillStyle="FF8C00";
+	    ctx.fillStyle="#FF8C00";
 	    ctx.fillRect(400,25,500,100); 
 	    // red
 	    ctx.fillStyle="#FF0000";
@@ -107,9 +168,11 @@
 		var ageElement = document.getElementById("age");
 		var age = ageElement.options[ageElement.selectedIndex].value;
 
+		// choose your server
 		var localhost = "http://localhost:5389"; //5389"
 		var infosci = "http://soblinux01.otago.ac.nz:8090"
-		var url = localhost + "/bcrest/getbccalc?eth=" + eth
+		var sameserver = ""
+		var url =  sameserver + "/bcrest/getbccalc?eth=" + eth
 				+ "&age1=" + age1 + "&age2=" + age2 + "&par=" + par + "&con="
 				+ con + "&hbcan=" + hbcan + "&hbben=" + hbben + "&htdis="
 				+ htdis + "&age=" + age;
@@ -140,7 +203,6 @@
 					riskCatField.value = cat
 					riskDescField.value = desc
 					
-					// make visible
 					risk.className = ''; 
 					
 					//var para = document.createElement("p");
@@ -156,7 +218,11 @@
 				
 					myfunction(risk,age)
 					 
+					// show results
+					var div = document.getElementById('results');
+					// make visible
 					
+					div.style.visibility = 'visible';
 					
 				} else
 					alert("Error ->" + xmlhttp.status + " " + xmlhttp.responseText);
@@ -174,99 +240,28 @@
 
 </head>
 <body onload="init()">
-    <div id="div1">
-    <h1>Breast cancer risk calculator</h1>
-	</div>
-	 
+<div id="header">
+    
 	<table>
 		<tr>
-		 
-			<td title="hello"> Ethnicity</td>
-			
-			<td class="tooltip" data-tip="Maori or non-Maori
-Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women">
-			<select id="eth">
-					<option value="mao">Maori</option>
-					<option value="eur">Eur</option>
-					<option value="eur">Other</option>
+			<td>
+				<img src="logo.png" alt="logo.png">		
+			</td>
+			<td>
+				<!--  h1>Breast cancer risk calculator</h1> -->
+			</td>
 
-			</select></td>
 		</tr>
-		<tr>
-			<td>Age at Menarche  </td>
-			<td class="tooltip" data-tip="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer.">
-			<select id="age1" >
-					<option value="3">less than 12</option>
-					<option value="2">12-14</option>
-					<option value="1">15+</option>
-					
-			</select></td>
-		</tr>
-		<tr>
-			<td>Age at Menopause</td>
-			<td class="tooltip" data-tip="Age (in years) when woman had her last period, Or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer.">
-			<select id="age2">
-					<option value="4" selected="selected">pre-menopause</option>
-					<option value="3">less than 45</option>
-					<option value="2">45-49</option>
-					<option value="1">50+</option>
-					
-
-			</select></td>
-		</tr>
-		<tr>
-			<td>Parity</td>
-			<td class="tooltip" data-tip="Here parity is defined as the number of pregnancies that have been carried to term.
-Reason – The more children a woman has, the lower her risk of breast cancer.">
-			<select id="par">
-					<option value="0">None</option>
-					<option value="1">1 child</option>
-					<option value="2">2 children</option>
-					<option value="3">3 children</option>
-					<option value="4">4+ children</option>
-
-			</select></td>
-		</tr>
-		<tr>
-			<td>Ever use oral contraceptives</td>
-			<td class="tooltip" data-tip="Ever used oral contraceptives. Yes or no.
-Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who haven’t.">
-			<select id="con">
-					<option value="0">Never</option>
-					<option value="1">Yes</option>
-
-			</select></td>
-		</tr>
-		<tr>
-			<td>Family history of breast cancer</td>
-			<td class="tooltip" data-tip="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
-Reason – Women with a family history of breast cancer have a higher risk of developing it themselves.">
-			<select id="hbcan">
-					<option value="0">No</option>
-					<option value="1">Second degree only</option>
-					<option value="2">First degree</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td>History of benign breast disease</td>
-			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease.">
-			<select id="hbben">
-					<option value="0">No</option>
-					<option value="1">Yes</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td>History of Thyroid disease</td>
-			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others.">
-			<select id="htdis">
-					<option value="0">No</option>
-					<option value="1">Yes</option>
-			</select></td>
-		</tr>
-		<tr>
+	</table>
+	
+</div>
+	 
+<div id="input">
+	<table>
+	<tr>
 			<td>Your current age</td>
-			<td><select id="age" >
-					<option value="20">20</option>
+			<td><select id="age" autocomplete="off" onchange="checkAge()">
+					<option value="20" selected="selected">20</option>
 					<option value="21">21</option>
 					<option value="22">22</option>
 					<option value="23">23</option>
@@ -297,19 +292,107 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 					<option value="48">48</option>
 					<option value="49">49</option>
 					<option value="50">50</option>
-					<option value="51">51</option>
-					<option value="52">52</option>
-					<option value="53">53</option>
-					<option value="54">54</option>
-
-
+			</select></td>
+			<td>
+				<textarea id="ageText" rows="1" cols="150" style="visibility: hidden"></textarea>
+			<td>
+			
+		</tr>
+		<tr>
+		 
+			<td> Ethnicity</td>
+			
+			<td class="tooltip" data-tip="Maori or non-Maori
+Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women">
+			<select id="eth" autocomplete="off" onchange="hideResults()">
+					<option value="mao">Maori</option>
+					<option value="eur" selected="selected">Eur</option>
+					<option value="eur">Other</option>
 
 			</select></td>
-			<canvas id="myCanvas" width="800" height="150" style="border:1px solid #d3d3d3;">
-Your browser does not support the HTML5 canvas tag.</canvas>
 		</tr>
-		 
+		<tr>
+			<td>Age at Menarche  </td>
+			<td class="tooltip" data-tip="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer.">
+			<select id="age1" autocomplete="off" onchange="hideResults()">
+					<option value="3" selected="selected">less than 12</option>
+					<option value="2">12-14</option>
+					<option value="1">15+</option>
+					
+			</select></td>
+		</tr>
+		<tr>
+			<td>Age at Menopause</td>
+			<td class="tooltip" data-tip="Age (in years) when woman had her last period, Or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer.">
+			<select id="age2" autocomplete="off" onchange="checkAge()">
+					<option value="4" selected="selected">pre-menopause</option>
+					<option value="3">less than 45</option>
+					<option value="2">45-49</option>
+					<option value="1">50+</option>
+					
 
+			</select></td>
+			<td>
+				<textarea id="age2Text" rows="1" cols="50" style="visibility: hidden"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>Parity</td>
+			<td class="tooltip" data-tip="Here parity is defined as the number of pregnancies that have been carried to term.
+Reason – The more children a woman has, the lower her risk of breast cancer.">
+			<select id="par" onchange="hideResults()">
+					<option value="0" autocomplete="off" selected="selected">None</option>
+					<option value="1">1 child</option>
+					<option value="2">2 children</option>
+					<option value="3">3 children</option>
+					<option value="4">4+ children</option>
+
+			</select></td>
+		</tr>
+		<tr>
+			<td>Ever use oral contraceptives</td>
+			<td class="tooltip" data-tip="Ever used oral contraceptives. Yes or no.
+Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who haven’t.">
+			<select id="con" autocomplete="off" onchange="hideResults()">
+					<option value="0" selected="selected">Never</option>
+					<option value="1">Yes</option>
+
+			</select></td>
+		</tr>
+		<tr>
+			<td>Family history of breast cancer</td>
+			<td class="tooltip" data-tip="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
+Reason – Women with a family history of breast cancer have a higher risk of developing it themselves.">
+			<select id="hbcan" autocomplete="off" onchange="hideResults()">
+					<option value="0" selected="selected">No</option>
+					<option value="1">Second degree only</option>
+					<option value="2">First degree</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td>History of benign breast disease</td>
+			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease.">
+			<select id="hbben" autocomplete="off" onchange="hideResults()">
+					<option value="0" selected="selected">No</option>
+					<option value="1">Yes</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td>History of Thyroid disease</td>
+			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others.">
+			<select id="htdis" autocomplete="off" onchange="hideResults()">
+					<option value="0" selected="selected">No</option>
+					<option value="1">Yes</option>
+			</select></td>
+		</tr>
+		<tr>
+		<td class="tooltip2" data-tip="Disclaimer goes here">
+		<input type="checkbox"  class="tick" autocomplete="off" 
+				id="toc" name="toc" value="toc" onchange="checkAge()"> I have read and agree with the terms and conditions<br>
+		</td>
+		</tr>
+		
+		
 
 
 	</table>
@@ -317,11 +400,21 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 	<table>
 		<tr>
 
-			<td><input type="button" id="button" value="Calculate risk"
-				onclick="getdetails()" ></input>
+			<td><input type="button" id="button" class="button" value="Calculate risk" style="visibility: hidden" onclick="getdetails()" ></input>
 		</tr>
 	</table>
-    <div id="results">
+	</div>
+    
+    <div id="results" style="visibility: hidden">
+	 
+	<table>
+	<tr>
+		<td>
+		<canvas id="myCanvas" width="800" height="150" style="border:none">
+Your browser does not support the HTML5 canvas tag.</canvas>
+		</td>
+		</tr> 
+	</table>
 	<table>
 		<tr>
 			<td>risk :</td>
@@ -344,5 +437,6 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 
 	</table>
 	</div>
+	 
 </body>
 </html>
