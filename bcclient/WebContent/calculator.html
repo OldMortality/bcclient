@@ -184,14 +184,13 @@
 		ctx.lineTo(linePosition,75);
 		ctx.stroke();
 		
-
-	    //ctx.font="12px Georgia";
-	    //ctx.fillStyle = "#000000"
-	    //ctx.fillText(topVal,760,15);
-	    //ctx.fillText(middleVal,385,18);
-	    //ctx.fillText("0.0",10,18);
-	    //ctx.fillText(lowerVal,185,18);
-	    //ctx.fillText(upperVal,600,18);
+		   ctx.font="12px Georgia";
+		    ctx.fillStyle = "#000000"
+		    ctx.fillText("Low risk",50,87);
+		    ctx.fillText("Moderate risk",200,87);
+		    ctx.fillText("High risk",450,89);
+		    ctx.fillText("Very high risk",650,90);
+	   
 	    
 	    
 	    
@@ -392,10 +391,7 @@ document.addEventListener("click", closeAllSelect);
 			<td>
 				<img src="logo.png" alt="logo.png">		
 			</td>
-			<td>
-				<!--  h1>Breast cancer risk calculator</h1> -->
-			</td>
-
+			
 		</tr>
 	</table>
 	
@@ -556,27 +552,18 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 	
 	<table>
 		<tr> 
-			<td><textarea id="riskValue"  class="hidden" style="visibility: hidden">33</textarea></td>
-			
-
-		</tr>
-
-
+			<td><textarea id="riskValue"  class="hidden" style="visibility: hidden"></textarea></td> 
+		</tr> 
 		<tr>
-			<td><input type="text" id="riskCategory" size="10" readonly style="visibility: hidden" /></td>
-
+			<td><input type="text" id="riskCategory" readonly style="visibility: hidden" /></td> 
 		</tr>
-		<tr>
-			
-			<td><textarea class="description" id="riskDescription" readonly ></textarea></td>
-			
-		</tr>
-
-	</table>
-	<table>
+		<tr> 
+			<td><textarea class="description" id="riskDescription" readonly ></textarea></td> 
+		</tr> 
+	 
 	<tr>
 		<td>
-		<canvas id="myCanvas" width="800" height="150" style="border:none">
+		<canvas id="myCanvas" width="800" height="125" style="border:none">
 Your browser does not support the HTML5 canvas tag.</canvas>
 		</td>
 		</tr> 
