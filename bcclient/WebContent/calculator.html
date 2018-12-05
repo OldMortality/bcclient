@@ -79,8 +79,48 @@
 		}
 	}
 	
-	function myfunction(risk,age) {
-	    //alert("age" + age+ "risk " + risk );       
+	
+	function getPosOld(risk,cat) {
+		var result = 0;
+		if (cat=="LOW_RISK") {
+			result = 100;
+		}
+		if (cat=="MODERATE_RISK") {
+			result = 300;
+		}
+		if (cat=="HIGH_RISK") {
+			result = 500;
+		}
+		if (cat=="VERY_HIGH_RISK") {
+			result = 700;
+		}
+		return(result);
+		
+	}
+	
+	function getPos(risk,cat) {
+		var result = 0;
+		var r = parseFloat(risk);
+	    
+		if (cat=="VERY_HIGH_RISK") {
+			result = 600 + (r-0.013)*200/(0.4-0.013);
+			result = Math.round(result);
+		} else {
+			result = Math.round((r/0.013) * 600);
+		}
+		if (result < 30) {
+			result = 30;
+		}
+		return(result);
+		
+	}
+	
+	
+	
+	function myfunction(risk, cat, age) {
+	    //alert("age" + age+ "risk " + risk + " cat" + cat);       
+	    
+	    var linePosition = getPos(risk,cat);
 	    
 	    var c = document.getElementById("myCanvas");
 	    var ctx = c.getContext("2d");
@@ -89,16 +129,19 @@
 	    ctx.fillStyle="#FFFFFF";
 	    ctx.fillRect(0,0,800,100);
 	    
-	    ctx.fillStyle="#0000FF";
-	    ctx.fillRect(0,25,200,50); 
-	  	//green
-	    ctx.fillStyle="#00FF00";
-	    ctx.fillRect(200,25,400,50); 
+	    // make the colours
+	    
+	    // green
+	    ctx.fillStyle="#7BA551";
+	    ctx.fillRect(0,25,162,50); 
+	  	// yellos
+	    ctx.fillStyle="#ECD14F";
+	    ctx.fillRect(162,25,369,50); 
 	    // orange
-	    ctx.fillStyle="#FF8C00";
-	    ctx.fillRect(400,25,500,50); 
+	    ctx.fillStyle="#E36D38";
+	    ctx.fillRect(369,25,600,50); 
 	    // red
-	    ctx.fillStyle="#FF0000";
+	    ctx.fillStyle="#AE312E";
 	    ctx.fillRect(600,25,800,50); 
 	   
 	    middleVal = middleValue(age).toFixed(2);
@@ -109,18 +152,46 @@
 	    
 	    r = parseFloat(risk)
 	    
-	    x = 800 * r/topVal
-	   
+	    //x = 800 * r/topVal
+	    var x = linePosition;
+	    // half the width of the box
+	    var halfbox = 52;
+	    
 	    ctx.strokeStyle="#000000";
-	    ctx.lineWidth=3
-	    ctx.strokeRect(x,25,3,75);
-	    ctx.font="12px Georgia";
-	    ctx.fillStyle = "#000000"
-	    ctx.fillText(topVal,760,15);
-	    ctx.fillText(middleVal,385,18);
-	    ctx.fillText("0.0",10,18);
-	    ctx.fillText(lowerVal,185,18);
-	    ctx.fillText(upperVal,600,18);
+	    ctx.lineWidth=2
+	    // half the width of the box
+		var halfbox = 25;
+	    
+		ctx.strokeStyle="#000000";
+		ctx.lineWidth=2
+		ctx.strokeRect(linePosition - halfbox,35,2 * halfbox,30);
+		ctx.fillStyle="#FFFFFF";
+		ctx.fillRect(linePosition - halfbox,35,2 * halfbox,30);
+		ctx.font="12px Georgia";
+		ctx.fillStyle="#000000";
+		
+		var riskText = (100 * risk).toFixed(2)  + "%";
+		
+	    ctx.fillText(riskText,linePosition-20,55);
+		
+		ctx.beginPath();
+		ctx.moveTo(linePosition,25);
+		ctx.lineTo(linePosition,35);
+		ctx.stroke();
+		
+		ctx.beginPath();
+		ctx.moveTo(linePosition,65);
+		ctx.lineTo(linePosition,75);
+		ctx.stroke();
+		
+
+	    //ctx.font="12px Georgia";
+	    //ctx.fillStyle = "#000000"
+	    //ctx.fillText(topVal,760,15);
+	    //ctx.fillText(middleVal,385,18);
+	    //ctx.fillText("0.0",10,18);
+	    //ctx.fillText(lowerVal,185,18);
+	    //ctx.fillText(upperVal,600,18);
 	    
 	    
 	    
@@ -210,7 +281,7 @@
 					
 					//drawCanvas()
 				
-					myfunction(risk,age)
+					myfunction(risk,cat, age)
 					 
 					// show results
 					var div = document.getElementById('results');
@@ -459,7 +530,7 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 			</select></td>
 		</tr>
 		<tr>
-			<td>History of Thyroid disease</td>
+			<td>History of thyroid disease</td>
 			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others.">
 			<select id="htdis" autocomplete="off" onchange="hideResults()">
 					<option value="0" selected="selected">No</option>
@@ -467,31 +538,24 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 			</select></td>
 		</tr>
 		<tr>
-		<td class="tooltip2" data-tip="Disclaimer goes here">
+		<td class="tooltip2" data-tip="Disclaimer">
 		<input type="checkbox"  class="tick" autocomplete="off" 
 				id="toc" name="toc" value="toc" onchange="checkAge()"> I have read and agree with the terms and conditions<br>
 		</td>
-		</tr>
-		
-		
-
-
+		</tr> 
 	</table>
 	
 	<table>
-		<tr>
-
+		<tr> 
 			<td><input type="button" id="button" class="button" value="Calculate risk" style="visibility: hidden" onclick="getdetails()" ></input>
 		</tr>
 	</table>
 	</div>
     
-    <div id="results" style="visibility: hidden">
-	 
+    <div id="results" style="visibility: hidden"> 
 	
 	<table>
-		<tr>
-			 
+		<tr> 
 			<td><textarea id="riskValue"  class="hidden" style="visibility: hidden">33</textarea></td>
 			
 
@@ -518,9 +582,10 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 		</tr> 
 	</table>
 	</div>
-	<div id= "colorstrip-bottom">
+	
 </div>
-</div>
+
+<div id= "colorstrip-bottom"></div>
 	 
 </body>
 </html>
