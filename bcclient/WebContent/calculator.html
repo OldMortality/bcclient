@@ -70,7 +70,8 @@
 				// show submit button
 				var b = document.getElementById("button");
 				// make sure user agrees to terms and conditions.
-				var checkBox = document.getElementById("toc");
+				var checkBox = document.getElementById("toc")
+				
 				if (checkBox.checked) {
 					b.style.visibility='visible'
 				} else {
@@ -453,9 +454,7 @@ document.addEventListener("click", closeAllSelect);
 Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women">
 				<select id="eth" autocomplete="off" onchange="hideResults()">
 					<option value="mao">Maori</option>
-					<option value="eur" selected="selected">Eur</option>
-					<option value="eur">Other</option>
-
+					<option value="eur" selected="selected">non-Maori</option>
 				</select></td>
 			
 		</tr>
