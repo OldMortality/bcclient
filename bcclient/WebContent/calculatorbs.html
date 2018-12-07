@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="styles.css">
   
 
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
  
 <script language="javascript">
 	var xmlhttp;
@@ -146,7 +147,7 @@
 	    ctx.fillRect(600,25,800,50); 
 	   
 	    middleVal = middleValue(age).toFixed(2);
-	    lowerVal = (middleValue(age)/2).toFixed(2); 
+	    lowerVal = (middleValue(age)/2).toFixed(2); s
 	    upperVal = (middleValue(age)*3/2).toFixed(2);
 	    topVal = (2 * middleValue(age)).toFixed(2);
 	    
@@ -198,40 +199,52 @@
 
 	    
 	}
+
+	function getdetails2() {
+		
+		
+		var ethselected = $('input[name=eth_radio]:checked').val();
+		alert(ethselected);
+		//alert($('input[name=eth_radio]:checked').val());
+
+		var sel = 'Maori';
+		$parent.find('input[name="' + eth_radio + '"][value="' + ethselected + '"]').click();
+		//return false;
+		
+	}          
+
 	
 	function getdetails() {
 		
-		var riskField = document.getElementById("riskValue");
-		riskField.style.display = "none"
-		var riskCatField = document.getElementById("riskCategory");
-		var riskDescField = document.getElementById("riskDescription");
+		alert($('input[name=ethradio]:checked').val());
+
+		alert('getdetails')
 		
-		var ethElement = document.getElementById("eth");
-		var eth = ethElement.options[ethElement.selectedIndex].value;
+		//var riskField = document.getElementById("riskValue");
+		//riskField.style.display = "none"
+		//var riskCatField = document.getElementById("riskCategory");
+		//var riskDescField = document.getElementById("riskDescription");
+		
+		//var ethElement = document.getElementById("ethradio");
+		var eth = $('input[name=ethradio]:checked').val();
+		          
+		
+		var age1 = "1";
 
-		var age1Element = document.getElementById("age1");
-		var age1 = age1Element.options[age1Element.selectedIndex].value;
+		var age2 = "1";
 
-		var age2Element = document.getElementById("age2");
-		var age2 = age2Element.options[age2Element.selectedIndex].value;
+		var par = "0"
 
-		var parElement = document.getElementById("par");
-		var par = parElement.options[parElement.selectedIndex].value;
+		var con = "1"
 
-		var conElement = document.getElementById("con");
-		var con = conElement.options[conElement.selectedIndex].value;
+		var hbcan = "0";
 
-		var hbcanElement = document.getElementById("hbcan");
-		var hbcan = hbcanElement.options[hbcanElement.selectedIndex].value;
+		var hbben = "1";
 
-		var hbbenElement = document.getElementById("hbben");
-		var hbben = hbbenElement.options[hbbenElement.selectedIndex].value;
+		var htdis = "1";
 
-		var htdisElement = document.getElementById("htdis");
-		var htdis = htdisElement.options[htdisElement.selectedIndex].value;
-
-		var ageElement = document.getElementById("age");
-		var age = ageElement.options[ageElement.selectedIndex].value;
+		var ageElement = "23";
+		var age = "23"
 
 		// choose your server
 		var localhost = "http://localhost:5389"; //5389"
@@ -380,171 +393,85 @@ document.addEventListener("click", closeAllSelect);
 </head>
 <body onload="init()">
 
-<div id= "colorstrip-top">
-</div>
 
 <div id="contents">
 
-<div id="header">
-    
-	<table>
-		<tr>
-			<td>
-				<img src="logo.png" width="10px" height="10px" alt="logo.png">		
-			</td>
-			
-		</tr>
-	</table>
+<div class="container">
+  <h2>Breast Cancer Risk Assessment</h2>
+            
+     <form action="/bcclient/calculatorbs.html">
+
+	<div class="form-group"> <!-- Radio group !-->
+		<div class="radio-inline">
+		<label class="control-label">Ethnicity</label>
+		
+		  <label>
+			<input type="radio" name="eth_radio" id="eur" value="eur" checked >
+			non-Maori
+		  </label>
+		  <label>
+			<input type="radio"  name="eth_radio" id="mao" value="mao">
+			Maori
+		  </label>
+		</div>
+		
+	</div>		
+
+	<div class="form-group"> 
+		<button class="btn btn-primary " name="submit"  onclick=getdetails2()>Submit it</button>
+	</div>
 	
-</div>
-
-
+</form>
+            
+            	<form onsubmit="getdetails()">
+  				<div class="row" style="background-color:#C5ede4;">
+    				<div class="col-lg-3">Ethnicity</div>
+    				<div class="form-group">
+    				<div class="col-lg-9">
+    				 	<label class="radio-inline"><input type="radio" name="ethradio" checked>non-Maori</label>
+					 	<label class="radio-inline"><input type="radio" name="ethradio">Maori</label> 
+    				</div>
+    				</div>
+  				</div>
+  				<div class="row" style="background-color:#ffffff;">
+    				<div class="col-lg-3">Age at menarche</div>
+    				<div class="col-lg-9">
+    				 	<label class="radio-inline"><input type="radio" name="menarcheradio" checked>less than 12</label>
+					 	<label class="radio-inline"><input type="radio" name="menarcheradio">12-14</label>
+					 	<label class="radio-inline"><input type="radio" name="menarcheradio">14+</label> 
+    				</div>
+  				</div>
+  				<div class="row" style="background-color:#C5ede4;">
+    				<div class="col-lg-3">Age at menopause</div>
+    				<div class="col-lg-9">
+    				 	<label class="radio-inline"><input type="radio" name="menopauseradio" checked>pre-menopause</label>
+					 	<label class="radio-inline"><input type="radio" name="menopauseradio">less than 45</label>
+					 	<label class="radio-inline"><input type="radio" name="menopauseradio">45-49</label>
+					 	<label class="radio-inline"><input type="radio" name="menopauseradio">50+</label>
+	   				</div>
+  				</div>
+  				<div class="row" style="background-color:#C5ede4;">
+    				<div class="col-lg-3">Parity</div>
+    				<div class="col-lg-9">
+    				 	<label class="radio-inline"><input type="radio" name="parityradio" checked>0</label>
+					 	<label class="radio-inline"><input type="radio" name="parityradio">1</label>
+					 	<label class="radio-inline"><input type="radio" name="parityradio">2</label>
+					 	<label class="radio-inline"><input type="radio" name="parityradio">3</label>
+					 	<label class="radio-inline"><input type="radio" name="parityradio">4+</label>
+	   				</div>
+  				</div>
+  	
+  				<input type="submit" id="button" class="button" value="Calculate risk"></input>
+	
+  				
+  				</form>
+  			  
+  				 
+  				
+  			
+      </div>
 	 
-<div id="input">
-	<table>
-	<tr>
-			<td>Your current age</td>
-			
-			<td>
-			<select id="age" autocomplete="off" onchange="checkAge()">
-					<option value="20" selected="selected">20</option>
-					<option value="21">21</option>
-					<option value="22">22</option>
-					<option value="23">23</option>
-					<option value="24">24</option>
-					<option value="25">25</option>
-					<option value="26">26</option>
-					<option value="27">27</option>
-					<option value="28">28</option>
-					<option value="29">29</option>
-					<option value="30">30</option>
-					<option value="31">31</option>
-					<option value="32">32</option>
-					<option value="33">33</option>
-					<option value="34">34</option>
-					<option value="35">35</option>
-					<option value="36">36</option>
-					<option value="37">37</option>
-					<option value="38">38</option>
-					<option value="39">39</option>
-					<option value="40">40</option>
-					<option value="41">41</option>
-					<option value="42">42</option>
-					<option value="43">43</option>
-					<option value="44">44</option>
-					<option value="45">45</option>
-					<option value="46">46</option>
-					<option value="47">47</option>
-					<option value="48">48</option>
-					<option value="49">49</option>
-					<option value="50">50</option>
-			</select>
-			</td>
-			
-			<td>
-				<textarea id="ageText" rows="1" cols="150" style="visibility: hidden"></textarea>
-			<td>
-			
-		</tr>
-		<tr>
-		 
-			<td> Ethnicity</td>
-			
-			<td class="tooltip" data-tip="Maori or non-Maori
-Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women">
-				<select id="eth" autocomplete="off" onchange="hideResults()">
-					<option value="mao">Maori</option>
-					<option value="eur" selected="selected">non-Maori</option>
-				</select></td>
-			
-		</tr>
-		<tr>
-			<td>Age at Menarche  </td>
-			<td class="tooltip" data-tip="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer.">
-			<select id="age1" autocomplete="off" onchange="hideResults()">
-					<option value="3" selected="selected">less than 12</option>
-					<option value="2">12-14</option>
-					<option value="1">15+</option>
-					
-			</select></td>
-		</tr>
-		<tr>
-			<td>Age at Menopause</td>
-			<td class="tooltip" data-tip="Age (in years) when woman had her last period, Or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer.">
-			<select id="age2" autocomplete="off" onchange="checkAge()">
-					<option value="4" selected="selected">pre-menopause</option>
-					<option value="3">less than 45</option>
-					<option value="2">45-49</option>
-					<option value="1">50+</option>
-					
-
-			</select></td>
-			<td>
-				<textarea id="age2Text" rows="1" cols="50" style="visibility: hidden"></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td>Parity</td>
-			<td class="tooltip" data-tip="Here parity is defined as the number of pregnancies that have been carried to term.
-Reason – The more children a woman has, the lower her risk of breast cancer.">
-			<select id="par" onchange="hideResults()">
-					<option value="0" autocomplete="off" selected="selected">None</option>
-					<option value="1">1 child</option>
-					<option value="2">2 children</option>
-					<option value="3">3 children</option>
-					<option value="4">4+ children</option>
-
-			</select></td>
-		</tr>
-		<tr>
-			<td>Ever use oral contraceptives</td>
-			<td class="tooltip" data-tip="Ever used oral contraceptives. Yes or no.
-Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who haven’t.">
-			<select id="con" autocomplete="off" onchange="hideResults()">
-					<option value="0" selected="selected">Never</option>
-					<option value="1">Yes</option>
-
-			</select></td>
-		</tr>
-		<tr>
-			<td>Family history of breast cancer</td>
-			<td class="tooltip" data-tip="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
-Reason – Women with a family history of breast cancer have a higher risk of developing it themselves.">
-			<select id="hbcan" autocomplete="off" onchange="hideResults()">
-					<option value="0" selected="selected">No</option>
-					<option value="1">Second degree only</option>
-					<option value="2">First degree</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td>History of benign breast disease</td>
-			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease.">
-			<select id="hbben" autocomplete="off" onchange="hideResults()">
-					<option value="0" selected="selected">No</option>
-					<option value="1">Yes</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td>History of thyroid disease</td>
-			<td class="tooltip" data-tip="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others.">
-			<select id="htdis" autocomplete="off" onchange="hideResults()">
-					<option value="0" selected="selected">No</option>
-					<option value="1">Yes</option>
-			</select></td>
-		</tr>
-		<tr>
-		<td class="tooltip2" data-tip="Disclaimer">
-		<input type="checkbox"  class="tick" autocomplete="off" 
-				id="toc" name="toc" value="toc" onchange="checkAge()"> I have read and agree with the terms and conditions<br>
-		</td>
-		</tr> 
-	</table>
 	
-	<table>
-		<tr> 
-			<td><input type="button" id="button" class="button" value="Calculate risk" style="visibility: hidden" onclick="getdetails()" ></input>
-		</tr>
-	</table>
 	</div>
     
     <div id="results" style="visibility: hidden"> 
@@ -569,9 +496,7 @@ Your browser does not support the HTML5 canvas tag.</canvas>
 	</table>
 	</div>
 	
-</div>
-
-<div id= "colorstrip-bottom"></div>
-	 
+ 
+ 
 </body>
 </html>

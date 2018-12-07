@@ -32,8 +32,8 @@ body {
 	width: 100%; 
 	height: 50px;
     border-style: solid;
-    border-color: #4d4f53;
-    background-color: #4d4f53;
+    border-color: #616366;
+    background-color: #616366;
     margin-bottom: 10px; 
 }
 
@@ -41,14 +41,18 @@ body {
 	width: 100%; 
 	height: 50px;
     border-style: solid;
-    border-color: #4d4f53;
-    background-color: #4d4f53;
+    border-color: #616366;
+    background-color: #616366;
     margin-top: 10px;
 } 
 
 #contents {
-	margin-left:70px;
+	margin: auto;
+  	width: 60%;
+  	border: 3px solid #616366;
+  	padding: 10px;
 }
+
 
 h1 {
     color: blue;
@@ -62,9 +66,10 @@ h1 {
 td.tooltip {
 			position: relative;
 		}	
-		
+ 
+
 .button {
-	background-color: #E06997; /* pink */
+	background-color: #F5A1BB; /* pink */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -87,7 +92,7 @@ td.tooltip::before {
     white-space:nowrap;
     bottom:9999px;
     left: 100%;
-    background:#4D4F53;
+    background:#616366;
     color:#FFFFFF;
     padding:0px 7px;
     line-height: 24px;
@@ -116,7 +121,7 @@ td.tooltip2::before {
     white-space:nowrap;
     bottom:9999px;
     left: 150%;
-    background:#4D4F53;
+    background:#616366;
     color:#FFFFFF;
     padding:0px 7px;
     line-height: 24px;

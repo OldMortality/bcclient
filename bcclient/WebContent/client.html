@@ -1,0 +1,442 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<link rel="stylesheet" href="riskcalc.css">
+	<title>Breast Cancer</title>
+	<link rel="icon" type="image/png" href="http://localhost:5389/bcclient/favicon.png" sizes="16x16"/>
+	<script src="js/bootstrap-formhelpers.min.js"></script>
+
+
+	
+<script language="javascript">
+	
+var xmlhttp;
+function init() {
+	// put more code here in case you are concerned about browsers that do not provide XMLHttpRequest object directly
+	xmlhttp = new XMLHttpRequest();
+}	
+
+function getPos(risk,cat) {
+	var result = 0;
+	var r = parseFloat(risk);
+    
+	if (cat=="VERY_HIGH_RISK") {
+		result = 600 + (r-0.013)*200/(0.4-0.013);
+		result = Math.round(result);
+	} else {
+		result = Math.round((r/0.013) * 600);
+	}
+	if (result < 30) {
+		result = 30;
+	}
+	return(result);
+	
+}
+
+
+function middleValue(age) {
+	return(0.15)
+}
+
+function drawCanvas(risk, cat, age) {
+    //alert("drawcanvas" + age+ "risk " + risk + " cat" + cat);       
+    
+    var linePosition = getPos(risk,cat);
+    
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+  
+    // clear it
+    ctx.fillStyle="#FFFFFF";
+    ctx.fillRect(0,0,800,100);
+    
+    // make the colours
+    
+    // green
+    ctx.fillStyle="#7BA551";
+    ctx.fillRect(0,25,162,50); 
+  	// yellos
+    ctx.fillStyle="#ECD14F";
+    ctx.fillRect(162,25,369,50); 
+    // orange
+    ctx.fillStyle="#E36D38";
+    ctx.fillRect(369,25,600,50); 
+    // red
+    ctx.fillStyle="#AE312E";
+    ctx.fillRect(600,25,800,50); 
+   
+    middleVal = middleValue(age).toFixed(2);
+    lowerVal = (middleValue(age)/2).toFixed(2); 
+    upperVal = (middleValue(age)*3/2).toFixed(2);
+    topVal = (2 * middleValue(age)).toFixed(2);
+    
+    
+    r = parseFloat(risk)
+    
+    //x = 800 * r/topVal
+    var x = linePosition;
+    // half the width of the box
+    var halfbox = 52;
+    
+    ctx.strokeStyle="#000000";
+    ctx.lineWidth=2
+    // half the width of the box
+	var halfbox = 25;
+    
+	ctx.strokeStyle="#000000";
+	ctx.lineWidth=2
+	ctx.strokeRect(linePosition - halfbox,35,2 * halfbox,30);
+	ctx.fillStyle="#FFFFFF";
+	ctx.fillRect(linePosition - halfbox,35,2 * halfbox,30);
+	ctx.font="12px Georgia";
+	ctx.fillStyle="#000000";
+	
+	var riskText = (100 * risk).toFixed(2)  + "%";
+	
+    ctx.fillText(riskText,linePosition-20,55);
+	
+	ctx.beginPath();
+	ctx.moveTo(linePosition,25);
+	ctx.lineTo(linePosition,35);
+	ctx.stroke();
+	
+	ctx.beginPath();
+	ctx.moveTo(linePosition,65);
+	ctx.lineTo(linePosition,75);
+	ctx.stroke();
+	
+	   ctx.font="12px Georgia";
+	    ctx.fillStyle = "#000000"
+	    ctx.fillText("Low risk",50,87);
+	    ctx.fillText("Moderate risk",200,87);
+	    ctx.fillText("High risk",450,89);
+	    ctx.fillText("Very high risk",650,90);
+   
+    
+    
+    
+}    
+
+
+function getdetails() {
+	
+ 
+	
+	var eth = $('input[name=ethradio]:checked').val(); 
+	var age1 = $('input[name=age1radio]:checked').val();
+	var age2 = $('input[name=age2radio]:checked').val();
+	var par = $('input[name=parradio]:checked').val();
+	var con = $('input[name=conradio]:checked').val();
+	var hbcan = $('input[name=hbcanradio]:checked').val(); 	var hbben = $('input[name=hbbenradio]:checked').val();
+	var htdis = $('input[name=htdisradio]:checked').val();
+	var age = document.getElementById("age").value
+	
+	// choose your server
+	var localhost = "http://localhost:5389"; //5389"
+	var infosci = "http://soblinux01.otago.ac.nz:8090"
+	var sameserver = ""
+	var url =  sameserver + "/bcrest/getbccalc?eth=" + eth
+			+ "&age1=" + age1 + "&age2=" + age2 + "&par=" + par + "&con="
+			+ con + "&hbcan=" + hbcan + "&hbben=" + hbben + "&htdis="
+			+ htdis + "&age=" + age;
+	alert(url)
+	xmlhttp.open('GET', url, true);
+	
+	xmlhttp.send(null);
+	//xmlhttp.overrideMimeType('text/xml')
+	xmlhttp.onreadystatechange = function() {
+
+		//var empname =  document.getElementById("empname");
+		//var age =  document.getElementById("age");
+		if (xmlhttp.readyState == 4) {
+
+			if (xmlhttp.status == 200) {
+
+				var data = xmlhttp.responseXML;
+				
+				var risk = data.getElementsByTagName("RISK")[0].childNodes[0].nodeValue;
+				
+				var cat = data.getElementsByTagName("RISK_CATEGORY")[0].childNodes[0].nodeValue;
+				var desc = data.getElementsByTagName("DESCRIPTION")[0].childNodes[0].nodeValue;
+
+				//alert(risk + " " + cat + " " +desc);
+				
+				var riskField = document.getElementById("riskValue");
+				
+				var riskCatField = document.getElementById("riskCategory");
+				var riskDescField = document.getElementById("riskDescription");
+				
+				riskField.value = risk
+				riskField.setAttribute("rv",risk)
+				//riskField.className = ''
+				//riskField.style.display = "block"
+				riskCatField.value = cat
+				riskDescField.value = desc
+				
+				//risk.className = ''; 
+				
+				 
+				
+				
+				
+				drawCanvas(risk,cat, age)
+				 
+				// show results
+				var div = document.getElementById('results');
+				// make visible
+				
+				div.style.visibility = 'visible';
+				
+				
+				
+			} else
+				alert("Error ->" + xmlhttp.status + " " + xmlhttp.responseText);
+		}
+	};
+	
+	return false;
+
+}
+
+	
+	//function getdetails() {
+		
+//		var selected = $('input[name=ethradio]:checked').val();
+		
+		 
+	//	return false;
+	//}          
+
+	
+		
+</script>
+
+</head>
+<body onload="init()">
+
+<div id="contents">
+
+<div class="container">
+  
+<div id="input">
+
+  
+<table  class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    <tr>
+    	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" 
+      		title="Current age: This calculator can be used for women age 20 and up, and age 50 or less."  alt="..."></td>
+        <td>Age</td>
+        <td>
+        <input id="age" type="number" min="20" max="50" value="20" required="true" />
+        <!--  input type="number" class="form-control" id="age" value="20">-->
+		</td>
+      </td>
+      <tr>
+      
+      	<td>
+      	<img src="i.png" width="25px" height="25px" data-toggle="tooltip" data-html="true" 
+      		title="Maori or non-Maori
+Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women"  alt="..."></td>
+        <td>Ethnicity</td>
+        <td>
+        	<label class="radio-inline" >
+      			<input type="radio" name="ethradio" value="eur" checked>Non-Maori
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="ethradio" value="mao">Maori
+    		</label>
+    
+        </td>
+        
+      </tr>
+      <tr>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>Age at menarche</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="age1radio" value="3" checked>Less than 12
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="age1radio" value="2">12-14
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="age1radio" value="1">14+
+    		</label>
+    		
+        </td>
+        
+      </tr>
+      <tr>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Age (in years) when woman had her last period, or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>Age at menopause</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="age2radio" value="4" checked>Pre-menopause
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="age2radio" value="3" >Less than 45
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="age2radio" value="2" >45-49
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="age2radio" value="1" >50+
+    		</label>
+    		
+        </td>
+        
+      </tr>
+      <tr>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Here parity is defined as the number of pregnancies that have been carried to term.
+Reason – The more children a woman has, the lower her risk of breast cancer." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>Parity</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="parradio" value="0" checked>0
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="parradio" value="1">1
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="parradio" value="2">2
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="parradio" value="3">3
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="parradio" value="4">4+
+    		</label>
+    		
+        </td>
+        
+      </tr>
+	  <tr>
+	  	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Ever used oral contraceptives. Yes or no.
+Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who have not." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>Ever used oral contraceptives</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="conradio" value="0" checked>No
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="conradio" value="1">Yes
+    		</label>
+    		
+        </td>
+        
+      </tr>
+	
+<tr>	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
+Reason – Women with a family history of breast cancer have a higher risk of developing it themselves." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>Family history of breast cancer</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="hbcanradio" value="0" checked>No
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="hbcanradio" value="1">2nd degree only
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="hbcanradio" value="2">1st degree
+    		</label>
+    		
+        </td>
+        
+      </tr>
+      <tr>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>History of benign breast disease</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="hbbenradio" value="0" checked>No
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="hbbenradio" value="1">Yes
+    		</label>
+    		
+        </td>
+        
+      </tr>
+      <tr>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others." class="rounded mx-auto d-block" alt="..."></td>
+     
+        <td>History of thyroid disease</td>
+        <td>
+        	<label class="radio-inline">
+      			<input type="radio" name="htdisradio" value="0" checked>No
+    		</label>
+    		<label class="radio-inline">
+      			<input type="radio" name="htdisradio" value="1">Yes
+      		</label>
+    		
+        </td>
+        
+      </tr>
+      
+
+      
+    </tbody>
+  </table>
+  <button class="btn btn-primary" id="calcbutton" name="submit" onclick=getdetails()>Submit</button>
+
+<div class="d-none">
+
+		<input type="text"   class="invisible" id="riskValue">
+		<input type="text"   class="invisible" id="riskCategory">
+</div>	 
+
+<div id="results">
+ 		 
+<table  class="table">
+<thead>
+</thead>
+<tbody>
+
+		<tr> 
+			<td><input type="text" class="form-control" id="riskDescription"></td> 
+		</tr> 
+	 
+	<tr>
+		<td>
+		<canvas id="myCanvas" width="800" height="125" style="border:none">
+Your browser does not support the HTML5 canvas tag.</canvas>
+		</td>
+		</tr> 
+	</table>
+</tbody>
+        
+	
+	
+          	
+ </div>
+ </div>
+ </div>
+ 
+ </div>
+ 
+ 
+</body>
+</html>
