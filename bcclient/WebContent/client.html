@@ -16,13 +16,87 @@
 	<script src="js/bootstrap-formhelpers.min.js"></script>
 
 
+<script language="javascript">
+
+function hideResults() {
+	var div = document.getElementById('results');
+	div.style.visibility = 'hidden';
+}
+
+function checkAge() {
+	 
+	hideResults();
+
+	// current age
+	var a = document.getElementById("age").value
 	
+	var age = parseInt(a,10);
+	// age at menopause
+	// value="2">45-49
+	// value="1">50+
+	var a2 =  $('input[name=age2radio]:checked').val();
+	var error = false;
+	 
+	if (a2 == "2" && age < 45) {
+			error = true; 
+	}
+	if (a2 == "1" && age < 50) {
+			error = true;
+	}
+	if (error==true) {
+		 
+		var errmsg = 'Age at menopause is inconsistent with current age';
+		$('#messageArea').html(errmsg);
+		$('#messageArea').show();
+		$('#calcButton').prop('disabled',true);
+		
+		//var b = document.getElementById("calcButton");
+		// hide button
+		//b.style.visibility='hidden'
+
+					
+	} else {
+		var errmsg = "";
+		$('#messageArea').html(errmsg);
+		$('#messageArea').hide();
+		$('#calcButton').prop('disabled',false);
+		
+		//var b = document.getElementById("calcButton");
+		//b.style.visibility='visible'
+			
+	}
+	return(error); 
+}
+</script>
+
+<script language="javascript">
+	$(document).ready(function(){
+		$('#messageArea').hide();
+    	$("age").change(function(){
+    		//alert("The text has been changed.");
+    		checkAge();
+        	
+    	});
+    	
+});
+</script>
+
+<script language="javascript">
+
+$(document).on('change', 'input:radio[id^="age2radio"]', function (event) {
+    	    checkAge();
+    	});
+</script>
+
+
 <script language="javascript">
 	
 var xmlhttp;
 function init() {
-	// put more code here in case you are concerned about browsers that do not provide XMLHttpRequest object directly
+	
+	//$('#myModal').modal('show')
 	xmlhttp = new XMLHttpRequest();
+	
 }	
 
 function getPos(risk,cat) {
@@ -46,6 +120,8 @@ function getPos(risk,cat) {
 function middleValue(age) {
 	return(0.15)
 }
+
+
 
 function drawCanvas(risk, cat, age) {
     //alert("drawcanvas" + age+ "risk " + risk + " cat" + cat);       
@@ -129,7 +205,10 @@ function drawCanvas(risk, cat, age) {
 
 function getdetails() {
 	
- 
+	var err = checkAge();
+	if (err==false) {
+		
+	
 	
 	var eth = $('input[name=ethradio]:checked').val(); 
 	var age1 = $('input[name=age1radio]:checked').val();
@@ -138,9 +217,10 @@ function getdetails() {
 	var con = $('input[name=conradio]:checked').val();
 	var hbcan = $('input[name=hbcanradio]:checked').val(); 	var hbben = $('input[name=hbbenradio]:checked').val();
 	var htdis = $('input[name=htdisradio]:checked').val();
+	 
 	var age = document.getElementById("age").value
 	
-	// choose your server
+	 
 	var localhost = "http://localhost:5389"; //5389"
 	var infosci = "http://soblinux01.otago.ac.nz:8090"
 	var sameserver = ""
@@ -148,7 +228,7 @@ function getdetails() {
 			+ "&age1=" + age1 + "&age2=" + age2 + "&par=" + par + "&con="
 			+ con + "&hbcan=" + hbcan + "&hbben=" + hbben + "&htdis="
 			+ htdis + "&age=" + age;
-	alert(url)
+	//alert(url)
 	xmlhttp.open('GET', url, true);
 	
 	xmlhttp.send(null);
@@ -164,27 +244,27 @@ function getdetails() {
 				var data = xmlhttp.responseXML;
 				
 				var risk = data.getElementsByTagName("RISK")[0].childNodes[0].nodeValue;
-				
 				var cat = data.getElementsByTagName("RISK_CATEGORY")[0].childNodes[0].nodeValue;
+				//alert(cat);
 				var desc = data.getElementsByTagName("DESCRIPTION")[0].childNodes[0].nodeValue;
-
 				//alert(risk + " " + cat + " " +desc);
 				
 				var riskField = document.getElementById("riskValue");
 				
 				var riskCatField = document.getElementById("riskCategory");
-				var riskDescField = document.getElementById("riskDescription");
+				//var riskDescField = document.getElementById("riskDescription");
 				
 				riskField.value = risk
 				riskField.setAttribute("rv",risk)
 				//riskField.className = ''
 				//riskField.style.display = "block"
 				riskCatField.value = cat
-				riskDescField.value = desc
+				//riskDescField.value = desc
 				
 				//risk.className = ''; 
 				
-				 
+				$('#riskDescription').html(desc);
+				$('#riskDescription').show();
 				
 				
 				
@@ -202,6 +282,8 @@ function getdetails() {
 				alert("Error ->" + xmlhttp.status + " " + xmlhttp.responseText);
 		}
 	};
+	
+	}
 	
 	return false;
 
@@ -223,9 +305,36 @@ function getdetails() {
 </head>
 <body onload="init()">
 
+
 <div id="contents">
 
 <div class="container">
+
+   
+  
+<!-- Modal -->
+  <div class="modal show" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+       
+          <h4 class="modal-title">Disclaimer</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="tocbutton" class="btn btn-default" data-dismiss="modal" onclick = "$('.modal').removeClass('show').addClass('fade');">I accept</button>
+          `
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  
   
 <div id="input">
 
@@ -244,7 +353,7 @@ function getdetails() {
       		title="Current age: This calculator can be used for women age 20 and up, and age 50 or less."  alt="..."></td>
         <td>Age</td>
         <td>
-        <input id="age" type="number" min="20" max="50" value="20" required="true" />
+        <input id="age" type="number" min="20" max="50" value="20" required="true" onchange="checkAge()" />
         <!--  input type="number" class="form-control" id="age" value="20">-->
 		</td>
       </td>
@@ -290,16 +399,16 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Age at menopause</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="age2radio" value="4" checked>Pre-menopause
+      			<input type="radio" name="age2radio" id="age2radio4" value="4" checked>Pre-menopause
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age2radio" value="3" >Less than 45
+      			<input type="radio" name="age2radio" id="age2radio3" value="3" >Less than 45
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age2radio" value="2" >45-49
+      			<input type="radio" name="age2radio" id="age2radio2" value="2" >45-49
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age2radio" value="1" >50+
+      			<input type="radio" name="age2radio" id="age2radio1" value="1" >50+
     		</label>
     		
         </td>
@@ -400,8 +509,20 @@ Reason – Women with a family history of breast cancer have a higher risk of de
       
     </tbody>
   </table>
-  <button class="btn btn-primary" id="calcbutton" name="submit" onclick=getdetails()>Submit</button>
-
+  
+  
+<div class="container-fluid">
+ 	<div class="row">
+  		<div class="col-sm-2">
+  			<button class="btn btn-primary" id="calcbutton" name="submit" onclick=getdetails()>Calculate risk</button>
+    	</div>
+    	<div class="col-sm-10">
+  			<textarea class="form-control" readonly rows="1" style="resize:none;" id="messageArea"></textarea>
+  		
+		</div>
+	</div>  
+</div>  
+  
 <div class="d-none">
 
 		<input type="text"   class="invisible" id="riskValue">
@@ -409,24 +530,22 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 </div>	 
 
 <div id="results">
- 		 
-<table  class="table">
-<thead>
-</thead>
-<tbody>
-
-		<tr> 
-			<td><input type="text" class="form-control" id="riskDescription"></td> 
-		</tr> 
-	 
-	<tr>
-		<td>
-		<canvas id="myCanvas" width="800" height="125" style="border:none">
+<div class="container-fluid">
+ 	<div class="row">
+  		<div class="col-sm-12">
+  		<textarea class="form-control" readonly rows="2" style="resize:none;" id="riskDescription"></textarea>
+  		
+		</div>
+	</div>  	
+	<div class="row">
+  		<div class="col-sm-12">
+  			<canvas id="myCanvas"  width="1000px" height="100px" style="border:none">
 Your browser does not support the HTML5 canvas tag.</canvas>
-		</td>
-		</tr> 
-	</table>
-</tbody>
+		
+		</div>
+	</div>  		 
+</div>
+ 
         
 	
 	

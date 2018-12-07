@@ -11,3 +11,19 @@
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: #c5ede4;
 }
+
+#riskValue {
+	height: 0px;
+}
+
+#riskCategory {
+	height: 0px;
+}
+
+
+#riskDescription {
+	background-color: #c5ede4;
+}
+
+
+
