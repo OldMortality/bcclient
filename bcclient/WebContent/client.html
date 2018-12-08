@@ -21,6 +21,8 @@
 function hideResults() {
 	var div = document.getElementById('results');
 	div.style.visibility = 'hidden';
+	$('#messageArea').hide();
+	$('#riskDescription').hide();
 }
 
 function checkAge() {
@@ -72,6 +74,7 @@ function checkAge() {
 <script language="javascript">
 	$(document).ready(function(){
 		$('#messageArea').hide();
+		$('#riskDescription').hide();
     	$("age").change(function(){
     		//alert("The text has been changed.");
     		checkAge();
@@ -83,7 +86,7 @@ function checkAge() {
 
 <script language="javascript">
 
-$(document).on('change', 'input:radio[id^="age2radio"]', function (event) {
+$(document).on('change', 'input:radio[id^="age2"]', function (event) {
     	    checkAge();
     	});
 </script>
@@ -290,13 +293,7 @@ function getdetails() {
 }
 
 	
-	//function getdetails() {
-		
-//		var selected = $('input[name=ethradio]:checked').val();
-		
-		 
-	//	return false;
-	//}          
+	
 
 	
 		
@@ -305,6 +302,27 @@ function getdetails() {
 </head>
 <body onload="init()">
 
+<div class="container">
+
+<div id="banner">
+
+	<table  class="table">
+     
+    <tbody>
+    
+    	<tr>
+    	<td>
+    	<img src="logo.png" class="rounded mx-auto d-block" alt="logo.png">
+  		 
+    	</td>
+ 	  	
+ 	  	<tr>
+    
+    </tr>
+    </tbody>
+    </table>
+</div>
+</div>
 
 <div id="contents">
 
@@ -340,20 +358,15 @@ function getdetails() {
 
   
 <table  class="table table-striped">
-    <thead>
-      <tr>
-        <th></th>
-        <th></th>
-        
-      </tr>
-    </thead>
+     
     <tbody>
+    
     <tr>
     	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" 
       		title="Current age: This calculator can be used for women age 20 and up, and age 50 or less."  alt="..."></td>
         <td>Age</td>
         <td>
-        <input id="age" type="number" min="20" max="50" value="20" required="true" onchange="checkAge()" />
+        <input id="age" type="number" min="20" max="50" value="20" required="true" onfocusout="checkAge()" onchange="checkAge()" />
         <!--  input type="number" class="form-control" id="age" value="20">-->
 		</td>
       </td>
@@ -366,10 +379,10 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Ethnicity</td>
         <td>
         	<label class="radio-inline" >
-      			<input type="radio" name="ethradio" value="eur" checked>Non-Maori
+      			<input type="radio" id="eurradio" name="ethradio" value="eur" checked>Non-Maori
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="ethradio" value="mao">Maori
+      			<input type="radio" id="maoradio" name="ethradio" value="mao">Maori
     		</label>
     
         </td>
@@ -381,13 +394,13 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Age at menarche</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="age1radio" value="3" checked>Less than 12
+      			<input type="radio" id="age1_3" name="age1radio" value="3" checked>Less than 12
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age1radio" value="2">12-14
+      			<input type="radio" id="age1_2" name="age1radio" value="2">12-14
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age1radio" value="1">14+
+      			<input type="radio" id="age1_1" name="age1radio" value="1">14+
     		</label>
     		
         </td>
@@ -399,16 +412,16 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Age at menopause</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="age2radio" id="age2radio4" value="4" checked>Pre-menopause
+      			<input type="radio" id="age2_4" name="age2radio" value="4" checked>Pre-menopause
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age2radio" id="age2radio3" value="3" >Less than 45
+      			<input type="radio" id="age2_3" name="age2radio" value="3" >Less than 45
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age2radio" id="age2radio2" value="2" >45-49
+      			<input type="radio" id="age2_2" name="age2radio" value="2" >45-49
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="age2radio" id="age2radio1" value="1" >50+
+      			<input type="radio" id="age2_1" name="age2radio" value="1" >50+
     		</label>
     		
         </td>
@@ -421,19 +434,19 @@ Reason – The more children a woman has, the lower her risk of breast cancer." 
         <td>Parity</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="parradio" value="0" checked>0
+      			<input type="radio" id="par_0" name="parradio" value="0" checked>0
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="parradio" value="1">1
+      			<input type="radio" id="par_1" name="parradio" value="1">1
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="parradio" value="2">2
+      			<input type="radio" id="par_2" name="parradio" value="2">2
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="parradio" value="3">3
+      			<input type="radio" id="par_3" name="parradio" value="3">3
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="parradio" value="4">4+
+      			<input type="radio" id="par_4" name="parradio" value="4">4+
     		</label>
     		
         </td>
@@ -446,10 +459,10 @@ Reason – Woman who have used oral contraceptives have a higher risk of breast 
         <td>Ever used oral contraceptives</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="conradio" value="0" checked>No
+      			<input type="radio" id="con_0" name="conradio" value="0" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="conradio" value="1">Yes
+      			<input type="radio" id="con_1" name="conradio" value="1">Yes
     		</label>
     		
         </td>
@@ -462,13 +475,13 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         <td>Family history of breast cancer</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="hbcanradio" value="0" checked>No
+      			<input type="radio" id="hbcan_0" name="hbcanradio" value="0" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="hbcanradio" value="1">2nd degree only
+      			<input type="radio" id="hbcan_1" name="hbcanradio" value="1">2nd degree only
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="hbcanradio" value="2">1st degree
+      			<input type="radio" id="hbcan_2" name="hbcanradio" value="2">1st degree
     		</label>
     		
         </td>
@@ -480,10 +493,10 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         <td>History of benign breast disease</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="hbbenradio" value="0" checked>No
+      			<input type="radio" id="hbben_0" name="hbbenradio" value="0" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="hbbenradio" value="1">Yes
+      			<input type="radio" id="hbben_1" name="hbbenradio" value="1">Yes
     		</label>
     		
         </td>
@@ -495,10 +508,10 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         <td>History of thyroid disease</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" name="htdisradio" value="0" checked>No
+      			<input type="radio" id="htdis_0" name="htdisradio" value="0" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" name="htdisradio" value="1">Yes
+      			<input type="radio" id="htdis_1" name="htdisradio" value="1">Yes
       		</label>
     		
         </td>
@@ -511,7 +524,7 @@ Reason – Women with a family history of breast cancer have a higher risk of de
   </table>
   
   
-<div class="container-fluid">
+<!--  div class="container-fluid">  -->
  	<div class="row">
   		<div class="col-sm-2">
   			<button class="btn btn-primary" id="calcbutton" name="submit" onclick=getdetails()>Calculate risk</button>
@@ -521,7 +534,7 @@ Reason – Women with a family history of breast cancer have a higher risk of de
   		
 		</div>
 	</div>  
-</div>  
+<!-- </div>  -->  
   
 <div class="d-none">
 
@@ -530,7 +543,7 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 </div>	 
 
 <div id="results">
-<div class="container-fluid">
+<!-- <div class="container-fluid"> -->
  	<div class="row">
   		<div class="col-sm-12">
   		<textarea class="form-control" readonly rows="2" style="resize:none;" id="riskDescription"></textarea>
@@ -539,12 +552,13 @@ Reason – Women with a family history of breast cancer have a higher risk of de
 	</div>  	
 	<div class="row">
   		<div class="col-sm-12">
-  			<canvas id="myCanvas"  width="1000px" height="100px" style="border:none">
+  			<div class="centerBlock">	
+  				<canvas id="myCanvas"  width="1000px" height="100px" style="border:none">
 Your browser does not support the HTML5 canvas tag.</canvas>
-		
+			</div>
 		</div>
 	</div>  		 
-</div>
+<!-- </div>  -->
  
         
 	

@@ -1,6 +1,13 @@
 @charset "UTF-8";
 
+@font-face {
+  font-family: gibsonlight;
+  src: url('Gibson-Light-webfont.ttf');
+}
 
+div {
+  font-family: gibsonlight;
+}
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
     background-color: #F5A1BB !important;
@@ -25,5 +32,9 @@
 	background-color: #c5ede4;
 }
 
+.centerBlock {
+  display: table;
+  margin: auto;
+}
 
 
