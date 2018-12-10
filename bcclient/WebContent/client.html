@@ -10,7 +10,7 @@
   
 
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-	<link rel="stylesheet" href="riskcalc.css">
+	<link rel="stylesheet" href="riskcalc.css"/>
 	<title>Breast Cancer</title>
 	<link rel="icon" type="image/png" href="http://localhost:5389/bcclient/favicon.png" sizes="16x16"/>
 	<script src="js/bootstrap-formhelpers.min.js"></script>
@@ -33,39 +33,46 @@ function checkAge() {
 	var a = document.getElementById("age").value
 	
 	var age = parseInt(a,10);
-	// age at menopause
-	// value="2">45-49
-	// value="1">50+
-	var a2 =  $('input[name=age2radio]:checked').val();
-	var error = false;
-	 
-	if (a2 == "2" && age < 45) {
-			error = true; 
-	}
-	if (a2 == "1" && age < 50) {
-			error = true;
-	}
-	if (error==true) {
-		 
-		var errmsg = 'Age at menopause is inconsistent with current age';
+	
+	if ( (age > 54) | (age < 25) ) {
+		error = true;
+		var errmsg = 'This risk calculator is only recommended for use in women aged 25-54 years.';
 		$('#messageArea').html(errmsg);
 		$('#messageArea').show();
 		$('#calcButton').prop('disabled',true);
 		
-		//var b = document.getElementById("calcButton");
-		// hide button
-		//b.style.visibility='hidden'
-
-					
-	} else {
-		var errmsg = "";
-		$('#messageArea').html(errmsg);
-		$('#messageArea').hide();
-		$('#calcButton').prop('disabled',false);
 		
-		//var b = document.getElementById("calcButton");
-		//b.style.visibility='visible'
+	} else {
+		// check age is consistent with age at menopause
+		// age at menopause
+		// value="2">45-49
+		// value="1">50+
+		var a2 =  $('input[name=age2radio]:checked').val();
+		var error = false;
+	 
+		if (a2 == "2" && age < 45) {
+			error = true; 
+		}
+		if (a2 == "1" && age < 50) {
+			error = true;
+		}
+		if (error==true) {
+		 
+			var errmsg = 'Age at menopause is inconsistent with current age';
+			$('#messageArea').html(errmsg);
+			$('#messageArea').show();
+			$('#calcButton').prop('disabled',true);
+		
+					
+		} else {
+			// all good
+			var errmsg = "";
+			$('#messageArea').html(errmsg);
+			$('#messageArea').hide();
+			$('#calcButton').prop('disabled',false);
+		
 			
+		}
 	}
 	return(error); 
 }
@@ -315,7 +322,11 @@ function getdetails() {
     	<img src="logo.png" class="rounded mx-auto d-block" alt="logo.png">
   		 
     	</td>
- 	  	
+    	
+ 	  	<td>
+    	<h3>Breast Cancer Risk Calculator</h3>
+    	</td>
+    	
  	  	<tr>
     
     </tr>
@@ -338,10 +349,20 @@ function getdetails() {
       <div class="modal-content">
         <div class="modal-header">
        
-          <h4 class="modal-title">Disclaimer</h4>
+          <h4 class="modal-title">Caveats</h4>
         </div>
         <div class="modal-body">
-          <p>Some text in the modal.</p>
+        
+          <ul>
+          	<li>This risk calculator is only recommended for use in women aged 25-54 years. As no New Zealand data for older women are available, the calculator has not been tested in these women.</li>
+    		<li>All women aged 45-69 years should have mammograms in the national mammography screening programme regardless of the results from this predictor model.</li>
+    		<li>This calculator is designed only for use in unscreened asymptomatic women and is not to be used for diagnostic purposes. All women with symptoms suggestive of breast cancer or breast lumps must be investigated according to best practice.</li>
+    		<li>The physicians of women with a strong family history of breast cancer or ovarian cancer should follow best practice guidelines for risk management and not rely on a risk predictor.</li>
+    		<li>This calculator is not recommended for use in women who may have BRCA gene mutations. As this model does not incorporate genetic risk, more detailed genetic and family history modeling must be undertaken for these women.</li>
+    		<li>Although this calculator has modest discrimination and should be used with caution, it performs as well as, or better than, other comparable international models.</li>
+    		<li>Incidence rates, mortality rates, and baseline hazards need to be updated approximately every 5 years as they, and screening coverage, will change over time.</li>
+        
+      </ul>  
         </div>
         <div class="modal-footer">
           <button type="button" id="tocbutton" class="btn btn-default" data-dismiss="modal" onclick = "$('.modal').removeClass('show').addClass('fade');">I accept</button>
@@ -363,10 +384,10 @@ function getdetails() {
     
     <tr>
     	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" 
-      		title="Current age: This calculator can be used for women age 20 and up, and age 50 or less."  alt="..."></td>
+      		title="Current age: This calculator can be used for women age 25 and up, and age 54 or less."  alt="..."></td>
         <td>Age</td>
         <td>
-        <input id="age" type="number" min="20" max="50" value="20" required="true" onfocusout="checkAge()" onchange="checkAge()" />
+        <input id="age" type="number" min="25" max="54" value="25" required="true" autocomplete="off" onfocusout="checkAge()" onchange="checkAge()" />
         <!--  input type="number" class="form-control" id="age" value="20">-->
 		</td>
       </td>
@@ -379,10 +400,10 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Ethnicity</td>
         <td>
         	<label class="radio-inline" >
-      			<input type="radio" id="eurradio" name="ethradio" value="eur" checked>Non-Maori
+      			<input type="radio" id="eurradio" name="ethradio" value="eur" autocomplete="off" checked>Non-Maori
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="maoradio" name="ethradio" value="mao">Maori
+      			<input type="radio" id="maoradio" name="ethradio" value="mao" autocomplete="off">Maori
     		</label>
     
         </td>
@@ -394,13 +415,13 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Age at menarche</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="age1_3" name="age1radio" value="3" checked>Less than 12
+      			<input type="radio" id="age1_3" name="age1radio" value="3" autocomplete="off" checked>Less than 12 years
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="age1_2" name="age1radio" value="2">12-14
+      			<input type="radio" id="age1_2" name="age1radio" value="2" autocomplete="off">12-14 years
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="age1_1" name="age1radio" value="1">14+
+      			<input type="radio" id="age1_1" name="age1radio" value="1" autocomplete="off">15+ years
     		</label>
     		
         </td>
@@ -412,16 +433,16 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         <td>Age at menopause</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="age2_4" name="age2radio" value="4" checked>Pre-menopause
+      			<input type="radio" id="age2_4" name="age2radio" value="4" autocomplete="off" checked>Pre-menopause
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="age2_3" name="age2radio" value="3" >Less than 45
+      			<input type="radio" id="age2_3" name="age2radio" value="3" autocomplete="off">Less than 45
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="age2_2" name="age2radio" value="2" >45-49
+      			<input type="radio" id="age2_2" name="age2radio" value="2" autocomplete="off">45-49
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="age2_1" name="age2radio" value="1" >50+
+      			<input type="radio" id="age2_1" name="age2radio" value="1" autocomplete="off">50+
     		</label>
     		
         </td>
@@ -429,24 +450,24 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
       </tr>
       <tr>
       	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Here parity is defined as the number of pregnancies that have been carried to term.
-Reason – The more children a woman has, the lower her risk of breast cancer." class="rounded mx-auto d-block" alt="..."></td>
+Reason – The risk of breast cancer varies with the number of children a woman has had." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>Parity</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="par_0" name="parradio" value="0" checked>0
+      			<input type="radio" id="par_0" name="parradio" value="0" autocomplete="off" checked>0
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="par_1" name="parradio" value="1">1
+      			<input type="radio" id="par_1" name="parradio" value="1" autocomplete="off">1
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="par_2" name="parradio" value="2">2
+      			<input type="radio" id="par_2" name="parradio" value="2" autocomplete="off">2
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="par_3" name="parradio" value="3">3
+      			<input type="radio" id="par_3" name="parradio" value="3" autocomplete="off">3
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="par_4" name="parradio" value="4">4+
+      			<input type="radio" id="par_4" name="parradio" value="4" autocomplete="off">4+
     		</label>
     		
         </td>
@@ -459,10 +480,10 @@ Reason – Woman who have used oral contraceptives have a higher risk of breast 
         <td>Ever used oral contraceptives</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="con_0" name="conradio" value="0" checked>No
+      			<input type="radio" id="con_0" name="conradio" value="0" autocomplete="off" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="con_1" name="conradio" value="1">Yes
+      			<input type="radio" id="con_1" name="conradio" value="1" autocomplete="off">Yes
     		</label>
     		
         </td>
@@ -475,13 +496,13 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         <td>Family history of breast cancer</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="hbcan_0" name="hbcanradio" value="0" checked>No
+      			<input type="radio" id="hbcan_0" name="hbcanradio" value="0" autocomplete="off" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="hbcan_1" name="hbcanradio" value="1">2nd degree only
+      			<input type="radio" id="hbcan_1" name="hbcanradio" value="1" autocomplete="off">2nd degree only
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="hbcan_2" name="hbcanradio" value="2">1st degree
+      			<input type="radio" id="hbcan_2" name="hbcanradio" value="2" autocomplete="off">1st degree
     		</label>
     		
         </td>
@@ -493,10 +514,10 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         <td>History of benign breast disease</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="hbben_0" name="hbbenradio" value="0" checked>No
+      			<input type="radio" id="hbben_0" name="hbbenradio" value="0" autocomplete="off" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="hbben_1" name="hbbenradio" value="1">Yes
+      			<input type="radio" id="hbben_1" name="hbbenradio" value="1" autocomplete="off">Yes
     		</label>
     		
         </td>
@@ -508,10 +529,10 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         <td>History of thyroid disease</td>
         <td>
         	<label class="radio-inline">
-      			<input type="radio" id="htdis_0" name="htdisradio" value="0" checked>No
+      			<input type="radio" id="htdis_0" name="htdisradio" value="0" autocomplete="off" checked>No
     		</label>
     		<label class="radio-inline">
-      			<input type="radio" id="htdis_1" name="htdisradio" value="1">Yes
+      			<input type="radio" id="htdis_1" name="htdisradio" value="1" autocomplete="off">Yes
       		</label>
     		
         </td>
