@@ -5,41 +5,8 @@
   src: url('Gibson-Light-webfont.ttf');
 }
 
-
-
-
-@font-face {
-  font-family: gibsonregular;
-  src: url('Gibson-Regular.ttf');
-}
-
-@font-face {
-  font-family: gibsonlightwebfont;
-  src: url('Gibson-Light-webfont.ttf');
-}
-
-@font-face {
-  font-family: gibsonbold;
-  src: url('Gibson-bold.ttf');
-}
-
-body {
-  color: #000000;
-}
-
 div {
-  font-family: gibsonlightwebfont;
-  
-}
-
-
-
-h3 {
-	font-family: gibsonregular;
-}
-
-h4 {
-	font-family: gibsonregular;
+  font-family: gibsonlight;
 }
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
@@ -51,10 +18,8 @@ h4 {
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: #c5ede4;
-   
 }
 
- 
 #riskValue {
 	height: 0px;
 }

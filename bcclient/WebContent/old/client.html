@@ -200,7 +200,7 @@ function drawCanvas(risk, cat, age) {
 	ctx.lineTo(linePosition,75);
 	ctx.stroke();
 	
-	   ctx.font="12px gibsonregular";
+	   ctx.font="12px Georgia";
 	    ctx.fillStyle = "#000000"
 	    ctx.fillText("Low risk",50,87);
 	    ctx.fillText("Moderate risk",200,87);
@@ -382,12 +382,9 @@ function getdetails() {
      
     <tbody>
     
-    <tr><!--  
-    	<td><img src="i2.png" width="25px" height="25px" data-toggle="tooltip" 
+    <tr>
+    	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" 
       		title="Current age: This calculator can be used for women age 25 and up, and age 54 or less."  alt="..."></td>
-        -->
-        <td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" 
-      		title="Current age: This calculator can be used for women age 25 and up, and age 54 or less."  alt="..."></span></td>
         <td>Age</td>
         <td>
         <input id="age" type="number" min="25" max="54" value="25" required="true" autocomplete="off" onfocusout="checkAge()" onchange="checkAge()" />
@@ -397,11 +394,10 @@ function getdetails() {
       <tr>
       
       	<td>
-      	<span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-html="true" 
+      	<img src="i.png" width="25px" height="25px" data-toggle="tooltip" data-html="true" 
       		title="Maori or non-Maori
-Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women"   ></span></td>
-        <td>
-        	Ethnicity</td>
+Reason - Maori women have a higher risk of developing breast cancer compared to non-Maori women"  alt="..."></td>
+        <td>Ethnicity</td>
         <td>
         	<label class="radio-inline" >
       			<input type="radio" id="eurradio" name="ethradio" value="eur" autocomplete="off" checked>Non-Maori
@@ -414,7 +410,7 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         
       </tr>
       <tr>
-      	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer." class="rounded mx-auto d-block" ></span></td>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Age (in years) when periods first started. &#10;Reason – The older a woman is when her periods started, the lower her risk of breast cancer." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>Age at menarche</td>
         <td>
@@ -432,7 +428,7 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         
       </tr>
       <tr>
-      	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Age (in years) when woman had her last period, or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer." class="rounded mx-auto d-block" ></span></td>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Age (in years) when woman had her last period, or periods have not yet stopped- premenopausal.&#10;Reason – The older a woman is when her periods stop, the lower her risk of breast cancer." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>Age at menopause</td>
         <td>
@@ -453,8 +449,8 @@ Reason - Maori women have a higher risk of developing breast cancer compared to 
         
       </tr>
       <tr>
-      	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Here parity is defined as the number of pregnancies that have been carried to term.
-Reason – The risk of breast cancer varies with the number of children a woman has had." class="rounded mx-auto d-block" ></span></td>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Here parity is defined as the number of pregnancies that have been carried to term.
+Reason – The risk of breast cancer varies with the number of children a woman has had." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>Parity</td>
         <td>
@@ -478,8 +474,8 @@ Reason – The risk of breast cancer varies with the number of children a woman 
         
       </tr>
 	  <tr>
-	  	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Ever used oral contraceptives. Yes or no.
-Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who have not." class="rounded mx-auto d-block"></span></td>
+	  	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Ever used oral contraceptives. Yes or no.
+Reason – Woman who have used oral contraceptives have a higher risk of breast cancer than woman who have not." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>Ever used oral contraceptives</td>
         <td>
@@ -494,8 +490,8 @@ Reason – Woman who have used oral contraceptives have a higher risk of breast 
         
       </tr>
 	
-<tr>	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
-Reason – Women with a family history of breast cancer have a higher risk of developing it themselves." class="rounded mx-auto d-block" ></span></td>
+<tr>	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="A history of breast cancer in a first degree relative (mother, sister or daughter), a second degree relative (aunty, grandmother, granddaughter, niece) or none.
+Reason – Women with a family history of breast cancer have a higher risk of developing it themselves." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>Family history of breast cancer</td>
         <td>
@@ -513,7 +509,7 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         
       </tr>
       <tr>
-      	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease." class="rounded mx-auto d-block" ></span></td>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Whether a woman has ever been diagnosed with a benign breast disease. Yes or no.&#10;Reason – Women who have had a benign breast disease have a higher risk of breast cancer compared to women with no benign breast disease." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>History of benign breast disease</td>
         <td>
@@ -528,7 +524,7 @@ Reason – Women with a family history of breast cancer have a higher risk of de
         
       </tr>
       <tr>
-      	<td><span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others." class="rounded mx-auto d-block" ></span></td>
+      	<td><img src="i.png" width="25px" height="25px" data-toggle="tooltip" title="Whether a woman has ever been diagnosed with a thyroid disorder. Yes or no.&#10;Reason – Woman who have had thyroid disease have a higher risk of breast cancer than others." class="rounded mx-auto d-block" alt="..."></td>
      
         <td>History of thyroid disease</td>
         <td>
